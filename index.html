@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Firmas Institucionales - IES El Rincón</title>
+  <style>
+:root {
+  --primary: #07549a;
+  --primary-dark: #073f78;
+  --primary-light: #eaf2f8;
+  --primary-border: #c7d8e8;
+  --secondary: #0ea5e9;
+  --success: #10b981;
+  --success-dark: #059669;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #f0f4f9;
+  color: var(--gray-800);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.app-header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  color: #ffffff;
+  padding: 1.5rem 1rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.brand-info h1 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand-info p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+}
+
+.header-badge .dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+/* Main Layout */
+.app-main {
+  max-width: 1440px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  width: 100%;
+  flex: 1;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  padding: 1.15rem 1.35rem;
+  border-bottom: 1px solid var(--gray-200);
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.card-subtitle {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-body {
+  padding: 1.35rem;
+}
+
+/* Form Styles */
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-legend {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-legend::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.35rem;
+}
+
+.tag-placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--gray-400);
+  pointer-events: none;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.85rem 0.65rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--gray-800);
+  background: #ffffff;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(7, 84, 154, 0.15);
+}
+
+.form-control::placeholder {
+  color: var(--gray-400);
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-inline-helper {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.btn-inline-helper:hover {
+  color: var(--primary-dark);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(7, 84, 154, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 8px rgba(7, 84, 154, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-success {
+  background: var(--success);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+}
+
+.btn-success:hover {
+  background: var(--success-dark);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border-color: var(--gray-300);
+}
+
+.btn-secondary:hover {
+  background: var(--gray-200);
+  color: var(--gray-800);
+}
+
+.btn-sm {
+  font-size: 0.775rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Quick Tools Toolbar */
+.form-quick-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding: 0.85rem 1.15rem;
+  background: #f8fafc;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.35rem;
+}
+
+.quick-tools-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.quick-tools-title svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.quick-tools-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Preview Section */
+.preview-container {
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  overflow: auto;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.preview-container.bg-light {
+  background: #f8fafc;
+}
+
+.preview-container.bg-dark {
+  background: #1e293b;
+}
+
+.preview-container.bg-white {
+  background: #ffffff;
+}
+
+.preview-iframe {
+  width: 100%;
+  max-width: 660px;
+  height: 215px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  transition: max-width 0.3s ease;
+}
+
+.preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.preview-tag {
+  font-size: 0.75rem;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.preview-actions-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Code Output Area */
+.code-wrapper {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--gray-300);
+  background: #1e293b;
+}
+
+.code-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.code-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.code-type-pill {
+  color: #38bdf8;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.code-counter {
+  color: #64748b;
+}
+
+.code-textarea {
+  width: 100%;
+  height: 220px;
+  padding: 1rem;
+  background: #1e293b;
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  border: none;
+  resize: vertical;
+  outline: none;
+  white-space: pre;
+  word-break: break-all;
+}
+
+.code-footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Radio Format Switch */
+.format-toggle-group {
+  display: inline-flex;
+  background: var(--gray-100);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
+}
+
+.format-toggle-option {
+  position: relative;
+}
+
+.format-toggle-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.format-toggle-option label {
+  display: block;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.format-toggle-option input[type="radio"]:checked + label {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Instructions Accordion / Tabs */
+.instructions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.instruction-item {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--gray-50);
+}
+
+.instruction-item h4 {
+  font-size: 0.875rem;
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.instruction-item ol {
+  padding-left: 1.25rem;
+  font-size: 0.775rem;
+  color: var(--gray-600);
+}
+
+.instruction-item ol li {
+  margin-bottom: 0.35rem;
+}
+
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--gray-900);
+  color: #ffffff;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 400px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.toast-success {
+  background: #064e3b;
+  border-left: 4px solid var(--success);
+}
+
+.toast.toast-info {
+  background: #0f172a;
+  border-left: 4px solid var(--secondary);
+}
+
+/* Alert Boxes */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.alert-danger {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.alert-success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+/* Toggle Switch & Checkbox Group */
+.checkbox-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.checkbox-card:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-border);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray-300);
+  transition: 0.25s ease;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.25s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--primary);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(18px);
+}
+
+.checkbox-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-text strong {
+  font-size: 0.85rem;
+  color: var(--gray-800);
+}
+
+.checkbox-text span {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.subfield-collapse {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Gmail Limit Status Badge */
+.gmail-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.725rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.gmail-status-badge.badge-success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.gmail-status-badge.badge-warning {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.gmail-status-badge.badge-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.gmail-status-badge .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.gmail-status-badge.badge-success .dot {
+  background: #16a34a;
+}
+
+.gmail-status-badge.badge-warning .dot {
+  background: #d97706;
+}
+
+.gmail-status-badge.badge-danger .dot {
+  background: #dc2626;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  border-top: 1px solid var(--gray-200);
+  background: #ffffff;
+  margin-top: auto;
+}
+
+.app-footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado Principal -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <div class="brand-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>Generador de Firmas Institucionales</h1>
+          <p>Personaliza tu firma oficial a partir de la plantilla corporativa con previsualización en tiempo real.</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="dot"></span>
+        <span>Plantilla: plantilla_firma.html</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="app-main">
+    
+
+    <div class="grid-layout">
+
+      <!-- COLUMNA IZQUIERDA: FORMULARIO -->
+      <section class="col-form">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title">Datos de la Firma</h2>
+                <span class="card-subtitle">Completa los campos para personalizar tu firma</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Barra de utilidades del formulario -->
+            <div class="form-quick-tools">
+              <div class="quick-tools-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Rellena tus datos o carga una muestra:</span>
+              </div>
+              <div class="quick-tools-actions">
+                <button type="button" id="btnLoadSample" class="btn btn-secondary btn-sm" title="Cargar valores de prueba">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                  Datos de ejemplo
+                </button>
+                <button type="button" id="btnClearForm" class="btn btn-secondary btn-sm" title="Borrar todos los campos">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  Limpiar
+                </button>
+              </div>
+            </div>
+
+            <form id="signatureForm" method="POST" action="index.php">
+
+              <!-- SECCIÓN 1: IDENTIDAD -->
+              <div class="form-section">
+                <div class="section-legend">1. Identidad y Cargo</div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_nombre">
+                    <span>Nombre y Apellidos</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_nombre" name="NOMBRE_APELLIDOS" data-placeholder="NOMBRE_APELLIDOS"
+                           class="form-control" placeholder="Ej: Juan Pérez"
+                           value="Juan Pérez" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_cargo">
+                    <span>Cargo o Departamento</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_cargo" name="CARGO_DEPARTAMENTO" data-placeholder="CARGO_DEPARTAMENTO"
+                           class="form-control" placeholder="Ej: Departamento de..."
+                           value="Departamento de...">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_centro">
+                    <span>Centro Educativo o Institución</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M3 7v14M21 7v14M6 21V11M18 21V11M9 7l3-4 3 4M9 11h6M9 15h6M9 19h6"></path>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_centro" name="CENTRO" data-placeholder="CENTRO"
+                           class="form-control" placeholder="Ej: IES El Rincón"
+                           value="IES El Rincón">
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECCIÓN 2: CONTACTO -->
+              <div class="form-section">
+                <div class="section-legend">2. Datos de Contacto</div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_email">
+                    <span>Correo Electrónico</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </span>
+                    <input type="email" id="field_email" name="EMAIL" data-placeholder="EMAIL"
+                           class="form-control" placeholder="Ej: juanperez@ieselrincon.es"
+                           value="juanperez@ieselrincon.es" required>
+                  </div>
+                  <div class="form-help">
+                    <span>Genera el enlace <code>mailto:</code> automáticamente.</span>
+                  </div>
+                </div>
+
+                <!-- Prefijo y Teléfono por separado -->
+                <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.75rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="field_prefijo">
+                      <span>Prefijo</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <span class="input-icon" style="font-weight: 700; font-size: 0.85rem; color: var(--gray-500);">+</span>
+                      <input type="text" id="field_prefijo" name="PREFIJO" data-placeholder="PREFIJO"
+                             class="form-control" placeholder="34"
+                             value="34">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="field_telefono">
+                      <span>Teléfono de Contacto (sin prefijo)</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <span class="input-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                      </span>
+                      <input type="text" id="field_telefono" name="TELEFONO" data-placeholder="TELEFONO"
+                             class="form-control" placeholder="Ej: 928 30 43 67"
+                             value="928 30 43 67">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-help" style="margin-top: -0.25rem; margin-bottom: 0.5rem;">
+                  <span>Introduce el teléfono sin el prefijo. El prefijo se añade en el campo independiente y aparecerá en la firma entre paréntesis, por ejemplo <code>(+34)</code>.</span>
+                </div>
+              </div>
+
+              <!-- SECCIÓN 3: ENLACES -->
+              <div class="form-section">
+                <div class="section-legend">3. Enlaces y Redes</div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_web">
+                    <span>Texto Web Visible</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_web" name="WEB" data-placeholder="WEB"
+                           class="form-control" placeholder="Ej: www.ieselrincon.es"
+                           value="www.ieselrincon.es">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="field_url_web">
+                    <span>URL de Destino Web</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_url_web" name="URL_WEB" data-placeholder="URL_WEB"
+                           class="form-control" placeholder="Ej: https://www.ieselrincon.es"
+                           value="https://www.ieselrincon.es">
+                  </div>
+                  <div class="form-help">
+                    <span>Enlace de destino al hacer clic en la dirección web.</span>
+                  </div>
+                </div>
+
+                <label class="checkbox-card" for="field_include_linkedin">
+                  <div class="toggle-switch">
+                    <input type="checkbox" id="field_include_linkedin" name="INCLUDE_LINKEDIN" value="1"
+                           checked>
+                    <span class="toggle-slider"></span>
+                  </div>
+                  <div class="checkbox-text">
+                    <strong>Incluir perfil y logotipo de LinkedIn</strong>
+                    <span>Muestra el icono de LinkedIn en la cabecera de la firma</span>
+                  </div>
+                </label>
+
+                <div id="linkedinUrlContainer" class="form-group subfield-collapse" style="">
+                  <label class="form-label" for="field_url_linkedin">
+                    <span>Perfil de LinkedIn (URL)</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                      </svg>
+                    </span>
+                    <input type="text" id="field_url_linkedin" name="URL_LINKEDIN" data-placeholder="URL_LINKEDIN"
+                           class="form-control" placeholder="Ej: https://es.linkedin.com/company/ieselrincon"
+                           value="https://es.linkedin.com/company/ieselrincon">
+                  </div>
+                  <div class="form-help">
+                    <span>Enlace del icono de LinkedIn en la esquina superior derecha.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón principal de acción -->
+              <div style="margin-top: 1.5rem;">
+                <button type="submit" id="btnGenerateCode" class="btn btn-primary btn-block">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                  </svg>
+                  Generar Código HTML de la Firma
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMNA DERECHA: PREVISUALIZACIÓN Y CÓDIGO -->
+      <section class="col-preview">
+
+        <!-- TARJETA 1: PREVISUALIZACIÓN EN TIEMPO REAL -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title">Previsualización en Vivo</h2>
+                <span class="card-subtitle">Vista exacta de cómo aparecerá en los correos electrónicos</span>
+              </div>
+            </div>
+
+            <!-- Controles de vista -->
+            <div class="preview-controls">
+              <span style="font-size: 0.75rem; color: var(--gray-500); font-weight: 600;">Fondo:</span>
+              <div class="btn-group">
+                <button type="button" class="btn btn-secondary btn-sm btn-primary" data-preview-bg="bg-white" title="Fondo Blanco">Blanco</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-preview-bg="bg-light" title="Fondo Gris Suave">Claro</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-preview-bg="bg-dark" title="Fondo Oscuro">Oscuro</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Contenedor del Iframe -->
+            <div id="previewContainer" class="preview-container bg-white">
+              <iframe id="previewIframe" class="preview-iframe" title="Previsualización de la firma"
+                      srcdoc="&lt;!DOCTYPE html&gt;
+&lt;!--
+PLANTILLA DE FIRMA - IES EL RINCÓN
+Optimizada para máxima compatibilidad con clientes de correo (Gmail / Google Workspace)
+con logotipo transparente e imágenes ultraligeras para cumplir estrictamente con el límite de 10.000 caracteres.
+--&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;base target=&quot;_blank&quot;&gt;
+&lt;title&gt;Firma IES El Rincón&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:20px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+&lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;620&quot; style=&quot;width:620px;border-collapse:separate;border-spacing:0;border:1px solid #c7d8e8;border-radius:10px;background:#ffffff;overflow:hidden;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;460&quot; valign=&quot;top&quot; style=&quot;width:460px;padding:0;vertical-align:top;background:#ffffff;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;460&quot; style=&quot;width:460px;border-collapse:collapse;&quot;&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;90&quot; style=&quot;width:50px;height:90px;background:#07549a;padding:0;font-size:0;line-height:90px;border-radius:9px 0 0 0;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;90&quot; valign=&quot;top&quot; style=&quot;width:402px;height:90px;background:#ffffff;padding:14px 20px 0 22px;vertical-align:top;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot; style=&quot;width:100%;border-collapse:collapse;&quot;&gt;
+              &lt;tr&gt;
+                &lt;td valign=&quot;top&quot; style=&quot;padding:0;vertical-align:top;&quot;&gt;
+                  &lt;div style=&quot;font-size:20px;line-height:24px;font-weight:bold;color:#073f78;white-space:nowrap;&quot;&gt;Juan Pérez&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:20px;color:#444444;&quot;&gt;Departamento de...&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:22px;color:#07549a;&quot;&gt;IES El Rincón&lt;/div&gt;
+                &lt;/td&gt;
+                &lt;td width=&quot;22&quot; valign=&quot;top&quot; align=&quot;right&quot; style=&quot;width:22px;padding:0;vertical-align:top;text-align:right;&quot;&gt;
+                  &lt;a href=&quot;https://es.linkedin.com/company/ieselrincon&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;text-decoration:none;border:0;&quot;&gt;
+                    &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAwklEQVQ4y+3VsQ7BcBDH8e//HxZdDN3N3QwWQ8M7eAAGIaRhtprsplp4BJOwKUMnM6MHsLZBwhlYLfwbifS3XvLJ5XKXUwC5ZtBAqzpQ5busQVbxpDJSL3SKwYjIUItWfUxHqZ5WUDTuQl6TUFL4l3DZIfJLjAufwZm3lXCPFSbdcdkh8h0Wnkvku0S+g2duxjbstljtAwE23ZplCj6xCP953VSutZH08p6wcEzAPWtgbt6VuY6vt4HAzOC/W2Yv984DVco3+6SGyu4AAAAASUVORK5CYII=&quot; width=&quot;22&quot; height=&quot;22&quot; alt=&quot;LinkedIn&quot; style=&quot;display:block;width:22px;height:22px;border:0;margin:0;&quot;&gt;
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr&gt;
+                &lt;td colspan=&quot;2&quot; style=&quot;padding:3px 0 0 0;&quot;&gt;
+                  &lt;div style=&quot;height:1px;line-height:1px;font-size:1px;background:#c7d8e8;&quot;&gt;&amp;nbsp;&lt;/div&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABE0lEQVQ4y82UIUuDURSGn+8GkWEcRhERWZAlUTAY/BMWmyAGMcn+wH6AmIxTEMP6oojBNETUYBbTZO1zOAx7LDfI2PzGvi/slAvnvu973nsO58KsRqJWgAOgnEPnE2gk6jNQLcDYSwAWC3plOQB1oJtTqAvUUavqjtp2unhUd9X1ALSACrAHXAL9Cd30gZvIWwZaRPVUvVCX1FO1k+Gmo9Yi/jzyZQj0oG6q2+rrGKG32JYN9f7vBSPAH+qRuqI21F7Mf6tX6qp6qL4PExlTvaeeReKx+qSeqGsxn44ikdGbuzipUjxv/wMnqhNM7QeYA+azdjMFFgrYgK8ANIFBTqEB0EzUErAPbAFhSqE2cD2zfyO/UcLW7CQrMJwAAAAASUVORK5CYII=&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Email&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;mailto:juanperez@ieselrincon.es&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;juanperez@ieselrincon.es&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABLUlEQVQ4y52UsUoDURBF7z4kRVhSWC35AD8glcQUluIf2AXLgJDKvxALC0sLQRCLlCFYSCobP0D9AiGksFJ46LEZcV3fC05utzvL2Td37jwBbWAAjIEpsARugY68Ai6ABfDBjyIwBNywN9KaAqUX9pqBRaDvYQVJL5nahqQDL+wxU/s0oKvN44b52PMEqLywXYtDXTdAxzvNIOlB0nPj/aak96IotE7WDhM5GwFhHVgFzButLoA9NxAQsJ8I8FMdaN9VwDlwBvSB8o+3QABOrcXmCUdAy4YyqVkSbVOGv3bZ/loCl4moROAOuE7UvuuzVMtdA0Z8WuY8LIGTFZdASrNVAwlm/jzTWnNjxv+ZcmU5vE/ce/UhDQpHfEpJPUnbknYkbUnqSmpJupJ09AU5h3W7aMHvMwAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Tel&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;span style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;(+34) 928 30 43 67&lt;/span&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABbElEQVQ4y62Uu0oDURCGP5ctLCQESWUhFipiIZYi1mJjY2Vt4wOIvoVYpchjiI2dBH0CQfBSeClsFKKpxNtn4QSOh6wiZGBY5jtz/t2Zs2cgM7VU59V1ta7uqA/xrAefV0uqTEUdU/fUa3VDXVOf/bZOxBuxvhv5lUJt9U29VUcjTq0d/Fb9iPinYIDjZFNTXYyvSa0TvJm9YAygiNq3gcXQfgXaEdeybtSCtyMPYAnYUssCmAaWgS7wBNwAd8BUwnreDX4XeT22AkwySBtS94G5hJ0Cm8AB0Oiz5xFYBVr5vjJqHk3gPfAJzAAjfcQasd4AJtJ+Fn2a/B4+XFHNcJJDLtbNYBn+UiH2kuSk1i2Bk6z2R6AAzn/pWRHPm6zXAzR1Vj2Lv7ujXqgLaithqbdi/SJhZ+psAVwCh3EQ9TihceAqYT2vBR+PvB47DJ3Ku7n037uZT42jP6bG0Z9TIxPczeZZ51/zbFCT9gulCieuLflRywAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Web&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;https://www.ieselrincon.es&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;www.ieselrincon.es&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;14&quot; style=&quot;width:50px;height:14px;background:#07549a;padding:0;font-size:0;line-height:14px;border-radius:0 0 0 9px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;14&quot; style=&quot;width:402px;height:14px;background:#ffffff;padding:0;font-size:0;line-height:14px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=&quot;168&quot; valign=&quot;middle&quot; style=&quot;width:168px;background:#eaf2f8;border-left:1px solid #c7d8e8;padding:0;text-align:center;vertical-align:middle;border-radius:0 9px 9px 0;&quot;&gt;
+      &lt;img src=&quot;data:image/gif;base64,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&quot; width=&quot;145&quot; alt=&quot;IES El Rincón&quot; style=&quot;display:block;width:145px;height:auto;margin:0 auto;border:0;&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;">
+              </iframe>
+            </div>
+
+            <!-- Acciones directas sobre la firma visual -->
+            <div class="preview-actions-bar">
+              <button type="button" id="btnCopyVisual" class="btn btn-success" title="Copia el formato visual para pegarlo con Ctrl+V en Gmail">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                Copiar firma visual para GMail
+              </button>
+
+              <button type="button" id="btnOpenNewTab" class="btn btn-secondary" title="Abre la firma en una pestaña limpia del navegador">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                Abrir en pestaña nueva
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 2: CÓDIGO HTML GENERADO (SOLO TABLA) -->
+        <div id="codeCard" class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h2 class="card-title">Código HTML de la Tabla</h2>
+                <span class="card-subtitle">Fragmento &lt;table&gt; listo para incrustar en el correo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="code-wrapper">
+              <div class="code-toolbar">
+                <div class="code-toolbar-left">
+                  <span class="code-type-pill">HTML Tabla (&lt;table&gt;)</span>
+                  <span id="codeCharCounter" class="code-counter">
+                    9,230 caracteres (9 KB)
+                  </span>
+                </div>
+                <div id="gmailBadge" class="gmail-status-badge badge-success">
+                  <span class="dot"></span>
+                  <span id="gmailBadgeText">Compatible con Gmail (&lt; 10.000 caracteres)</span>
+                </div>
+              </div>
+              <textarea id="generatedHtml" class="code-textarea" readonly spellcheck="false">&lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;620&quot; style=&quot;width:620px;border-collapse:separate;border-spacing:0;border:1px solid #c7d8e8;border-radius:10px;background:#ffffff;overflow:hidden;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;460&quot; valign=&quot;top&quot; style=&quot;width:460px;padding:0;vertical-align:top;background:#ffffff;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;460&quot; style=&quot;width:460px;border-collapse:collapse;&quot;&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;90&quot; style=&quot;width:50px;height:90px;background:#07549a;padding:0;font-size:0;line-height:90px;border-radius:9px 0 0 0;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;90&quot; valign=&quot;top&quot; style=&quot;width:402px;height:90px;background:#ffffff;padding:14px 20px 0 22px;vertical-align:top;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot; style=&quot;width:100%;border-collapse:collapse;&quot;&gt;
+              &lt;tr&gt;
+                &lt;td valign=&quot;top&quot; style=&quot;padding:0;vertical-align:top;&quot;&gt;
+                  &lt;div style=&quot;font-size:20px;line-height:24px;font-weight:bold;color:#073f78;white-space:nowrap;&quot;&gt;Juan Pérez&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:20px;color:#444444;&quot;&gt;Departamento de...&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:22px;color:#07549a;&quot;&gt;IES El Rincón&lt;/div&gt;
+                &lt;/td&gt;
+                &lt;td width=&quot;22&quot; valign=&quot;top&quot; align=&quot;right&quot; style=&quot;width:22px;padding:0;vertical-align:top;text-align:right;&quot;&gt;
+                  &lt;a href=&quot;https://es.linkedin.com/company/ieselrincon&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;text-decoration:none;border:0;&quot;&gt;
+                    &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAwklEQVQ4y+3VsQ7BcBDH8e//HxZdDN3N3QwWQ8M7eAAGIaRhtprsplp4BJOwKUMnM6MHsLZBwhlYLfwbifS3XvLJ5XKXUwC5ZtBAqzpQ5busQVbxpDJSL3SKwYjIUItWfUxHqZ5WUDTuQl6TUFL4l3DZIfJLjAufwZm3lXCPFSbdcdkh8h0Wnkvku0S+g2duxjbstljtAwE23ZplCj6xCP953VSutZH08p6wcEzAPWtgbt6VuY6vt4HAzOC/W2Yv984DVco3+6SGyu4AAAAASUVORK5CYII=&quot; width=&quot;22&quot; height=&quot;22&quot; alt=&quot;LinkedIn&quot; style=&quot;display:block;width:22px;height:22px;border:0;margin:0;&quot;&gt;
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr&gt;
+                &lt;td colspan=&quot;2&quot; style=&quot;padding:3px 0 0 0;&quot;&gt;
+                  &lt;div style=&quot;height:1px;line-height:1px;font-size:1px;background:#c7d8e8;&quot;&gt;&amp;nbsp;&lt;/div&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABE0lEQVQ4y82UIUuDURSGn+8GkWEcRhERWZAlUTAY/BMWmyAGMcn+wH6AmIxTEMP6oojBNETUYBbTZO1zOAx7LDfI2PzGvi/slAvnvu973nsO58KsRqJWgAOgnEPnE2gk6jNQLcDYSwAWC3plOQB1oJtTqAvUUavqjtp2unhUd9X1ALSACrAHXAL9Cd30gZvIWwZaRPVUvVCX1FO1k+Gmo9Yi/jzyZQj0oG6q2+rrGKG32JYN9f7vBSPAH+qRuqI21F7Mf6tX6qp6qL4PExlTvaeeReKx+qSeqGsxn44ikdGbuzipUjxv/wMnqhNM7QeYA+azdjMFFgrYgK8ANIFBTqEB0EzUErAPbAFhSqE2cD2zfyO/UcLW7CQrMJwAAAAASUVORK5CYII=&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Email&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;mailto:juanperez@ieselrincon.es&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;juanperez@ieselrincon.es&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABLUlEQVQ4y52UsUoDURBF7z4kRVhSWC35AD8glcQUluIf2AXLgJDKvxALC0sLQRCLlCFYSCobP0D9AiGksFJ46LEZcV3fC05utzvL2Td37jwBbWAAjIEpsARugY68Ai6ABfDBjyIwBNywN9KaAqUX9pqBRaDvYQVJL5nahqQDL+wxU/s0oKvN44b52PMEqLywXYtDXTdAxzvNIOlB0nPj/aak96IotE7WDhM5GwFhHVgFzButLoA9NxAQsJ8I8FMdaN9VwDlwBvSB8o+3QABOrcXmCUdAy4YyqVkSbVOGv3bZ/loCl4moROAOuE7UvuuzVMtdA0Z8WuY8LIGTFZdASrNVAwlm/jzTWnNjxv+ZcmU5vE/ce/UhDQpHfEpJPUnbknYkbUnqSmpJupJ09AU5h3W7aMHvMwAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Tel&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;span style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;(+34) 928 30 43 67&lt;/span&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABbElEQVQ4y62Uu0oDURCGP5ctLCQESWUhFipiIZYi1mJjY2Vt4wOIvoVYpchjiI2dBH0CQfBSeClsFKKpxNtn4QSOh6wiZGBY5jtz/t2Zs2cgM7VU59V1ta7uqA/xrAefV0uqTEUdU/fUa3VDXVOf/bZOxBuxvhv5lUJt9U29VUcjTq0d/Fb9iPinYIDjZFNTXYyvSa0TvJm9YAygiNq3gcXQfgXaEdeybtSCtyMPYAnYUssCmAaWgS7wBNwAd8BUwnreDX4XeT22AkwySBtS94G5hJ0Cm8AB0Oiz5xFYBVr5vjJqHk3gPfAJzAAjfcQasd4AJtJ+Fn2a/B4+XFHNcJJDLtbNYBn+UiH2kuSk1i2Bk6z2R6AAzn/pWRHPm6zXAzR1Vj2Lv7ujXqgLaithqbdi/SJhZ+psAVwCh3EQ9TihceAqYT2vBR+PvB47DJ3Ku7n037uZT42jP6bG0Z9TIxPczeZZ51/zbFCT9gulCieuLflRywAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Web&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;https://www.ieselrincon.es&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;www.ieselrincon.es&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;14&quot; style=&quot;width:50px;height:14px;background:#07549a;padding:0;font-size:0;line-height:14px;border-radius:0 0 0 9px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;14&quot; style=&quot;width:402px;height:14px;background:#ffffff;padding:0;font-size:0;line-height:14px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=&quot;168&quot; valign=&quot;middle&quot; style=&quot;width:168px;background:#eaf2f8;border-left:1px solid #c7d8e8;padding:0;text-align:center;vertical-align:middle;border-radius:0 9px 9px 0;&quot;&gt;
+      &lt;img src=&quot;data:image/gif;base64,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&quot; width=&quot;145&quot; alt=&quot;IES El Rincón&quot; style=&quot;display:block;width:145px;height:auto;margin:0 auto;border:0;&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</textarea>
+            </div>
+
+            <div class="code-footer-actions">
+              <button type="button" id="btnCopyCode" class="btn btn-primary" title="Copiar código al portapapeles">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copiar Código HTML
+              </button>
+
+              <span style="font-size: 0.775rem; color: var(--gray-500);">
+                Logotipo con fondo transparente e imágenes embebidas en Base64.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 3: GUÍA DE INSTALACIÓN RÁPIDA -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div>
+                <h3 class="card-title">¿Cómo colocar la firma en tu correo?</h3>
+                <span class="card-subtitle">Pasos sencillos para los clientes de correo más utilizados</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="instructions-grid" style="grid-template-columns: 1fr;">
+              <div class="instruction-item">
+                <h4>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  Gmail / Google Workspace
+                </h4>
+                <ol>
+                  <li>Haz clic en el botón verde <strong>"Copiar firma visual para GMail"</strong> arriba.</li>
+                  <li>Abre Gmail y ve a <strong>Ajustes</strong> (icono ⚙️ en la esquina superior derecha) &rarr; <em>Ver todos los ajustes</em>.</li>
+                  <li>En la pestaña <strong>General</strong>, baja hasta la sección <strong>Firma</strong>.</li>
+                  <li>Crea una nueva firma (o selecciona la existente) y pega con <code>Ctrl + V</code> dentro del recuadro.</li>
+                  <li>Baja hasta el final de la página y pulsa <strong>Guardar cambios</strong>.</li>
+                </ol>
+                <div style="margin-top: 0.75rem; font-size: 0.775rem; color: #15803d; background: #dcfce7; padding: 0.55rem 0.75rem; border-radius: 6px; border: 1px solid #bbf7d0; line-height: 1.45;">
+                  <strong>✓ Límite de Gmail verificado:</strong> La firma copiada está optimizada (~8.400 caracteres) cumpliendo el límite máximo de 10.000 caracteres de Gmail. El logotipo oficial cuenta con fondo transparente para acoplarse con fidelidad total.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Contenedor invisible con la plantilla original para JavaScript -->
+  <textarea id="rawTemplateSource" style="display:none;" aria-hidden="true">&lt;!DOCTYPE html&gt;
+&lt;!--
+PLANTILLA DE FIRMA - IES EL RINCÓN
+Optimizada para máxima compatibilidad con clientes de correo (Gmail / Google Workspace)
+con logotipo transparente e imágenes ultraligeras para cumplir estrictamente con el límite de 10.000 caracteres.
+--&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;base target=&quot;_blank&quot;&gt;
+&lt;title&gt;Firma {{CENTRO}}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:20px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+&lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;620&quot; style=&quot;width:620px;border-collapse:separate;border-spacing:0;border:1px solid #c7d8e8;border-radius:10px;background:#ffffff;overflow:hidden;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;460&quot; valign=&quot;top&quot; style=&quot;width:460px;padding:0;vertical-align:top;background:#ffffff;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;460&quot; style=&quot;width:460px;border-collapse:collapse;&quot;&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;90&quot; style=&quot;width:50px;height:90px;background:#07549a;padding:0;font-size:0;line-height:90px;border-radius:9px 0 0 0;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;90&quot; valign=&quot;top&quot; style=&quot;width:402px;height:90px;background:#ffffff;padding:14px 20px 0 22px;vertical-align:top;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot; style=&quot;width:100%;border-collapse:collapse;&quot;&gt;
+              &lt;tr&gt;
+                &lt;td valign=&quot;top&quot; style=&quot;padding:0;vertical-align:top;&quot;&gt;
+                  &lt;div style=&quot;font-size:20px;line-height:24px;font-weight:bold;color:#073f78;white-space:nowrap;&quot;&gt;{{NOMBRE_APELLIDOS}}&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:20px;color:#444444;&quot;&gt;{{CARGO_DEPARTAMENTO}}&lt;/div&gt;
+                  &lt;div style=&quot;font-size:13px;line-height:22px;color:#07549a;&quot;&gt;{{CENTRO}}&lt;/div&gt;
+                &lt;/td&gt;
+                &lt;td width=&quot;22&quot; valign=&quot;top&quot; align=&quot;right&quot; style=&quot;width:22px;padding:0;vertical-align:top;text-align:right;&quot;&gt;
+                  &lt;a href=&quot;{{URL_LINKEDIN}}&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;text-decoration:none;border:0;&quot;&gt;
+                    &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAwklEQVQ4y+3VsQ7BcBDH8e//HxZdDN3N3QwWQ8M7eAAGIaRhtprsplp4BJOwKUMnM6MHsLZBwhlYLfwbifS3XvLJ5XKXUwC5ZtBAqzpQ5busQVbxpDJSL3SKwYjIUItWfUxHqZ5WUDTuQl6TUFL4l3DZIfJLjAufwZm3lXCPFSbdcdkh8h0Wnkvku0S+g2duxjbstljtAwE23ZplCj6xCP953VSutZH08p6wcEzAPWtgbt6VuY6vt4HAzOC/W2Yv984DVco3+6SGyu4AAAAASUVORK5CYII=&quot; width=&quot;22&quot; height=&quot;22&quot; alt=&quot;LinkedIn&quot; style=&quot;display:block;width:22px;height:22px;border:0;margin:0;&quot;&gt;
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr&gt;
+                &lt;td colspan=&quot;2&quot; style=&quot;padding:3px 0 0 0;&quot;&gt;
+                  &lt;div style=&quot;height:1px;line-height:1px;font-size:1px;background:#c7d8e8;&quot;&gt;&amp;nbsp;&lt;/div&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABE0lEQVQ4y82UIUuDURSGn+8GkWEcRhERWZAlUTAY/BMWmyAGMcn+wH6AmIxTEMP6oojBNETUYBbTZO1zOAx7LDfI2PzGvi/slAvnvu973nsO58KsRqJWgAOgnEPnE2gk6jNQLcDYSwAWC3plOQB1oJtTqAvUUavqjtp2unhUd9X1ALSACrAHXAL9Cd30gZvIWwZaRPVUvVCX1FO1k+Gmo9Yi/jzyZQj0oG6q2+rrGKG32JYN9f7vBSPAH+qRuqI21F7Mf6tX6qp6qL4PExlTvaeeReKx+qSeqGsxn44ikdGbuzipUjxv/wMnqhNM7QeYA+azdjMFFgrYgK8ANIFBTqEB0EzUErAPbAFhSqE2cD2zfyO/UcLW7CQrMJwAAAAASUVORK5CYII=&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Email&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;mailto:{{EMAIL}}&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;{{EMAIL}}&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABLUlEQVQ4y52UsUoDURBF7z4kRVhSWC35AD8glcQUluIf2AXLgJDKvxALC0sLQRCLlCFYSCobP0D9AiGksFJ46LEZcV3fC05utzvL2Td37jwBbWAAjIEpsARugY68Ai6ABfDBjyIwBNywN9KaAqUX9pqBRaDvYQVJL5nahqQDL+wxU/s0oKvN44b52PMEqLywXYtDXTdAxzvNIOlB0nPj/aak96IotE7WDhM5GwFhHVgFzButLoA9NxAQsJ8I8FMdaN9VwDlwBvSB8o+3QABOrcXmCUdAy4YyqVkSbVOGv3bZ/loCl4moROAOuE7UvuuzVMtdA0Z8WuY8LIGTFZdASrNVAwlm/jzTWnNjxv+ZcmU5vE/ce/UhDQpHfEpJPUnbknYkbUnqSmpJupJ09AU5h3W7aMHvMwAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Tel&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;span style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;{{TELEFONO}}&lt;/span&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;23&quot; align=&quot;center&quot; valign=&quot;middle&quot; style=&quot;width:50px;height:23px;background:#07549a;padding:0;text-align:center;vertical-align:middle;&quot;&gt;
+            &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABbElEQVQ4y62Uu0oDURCGP5ctLCQESWUhFipiIZYi1mJjY2Vt4wOIvoVYpchjiI2dBH0CQfBSeClsFKKpxNtn4QSOh6wiZGBY5jtz/t2Zs2cgM7VU59V1ta7uqA/xrAefV0uqTEUdU/fUa3VDXVOf/bZOxBuxvhv5lUJt9U29VUcjTq0d/Fb9iPinYIDjZFNTXYyvSa0TvJm9YAygiNq3gcXQfgXaEdeybtSCtyMPYAnYUssCmAaWgS7wBNwAd8BUwnreDX4XeT22AkwySBtS94G5hJ0Cm8AB0Oiz5xFYBVr5vjJqHk3gPfAJzAAjfcQasd4AJtJ+Fn2a/B4+XFHNcJJDLtbNYBn+UiH2kuSk1i2Bk6z2R6AAzn/pWRHPm6zXAzR1Vj2Lv7ujXqgLaithqbdi/SJhZ+psAVwCh3EQ9TihceAqYT2vBR+PvB47DJ3Ku7n037uZT42jP6bG0Z9TIxPczeZZ51/zbFCT9gulCieuLflRywAAAABJRU5ErkJggg==&quot; width=&quot;19&quot; height=&quot;19&quot; alt=&quot;Web&quot; style=&quot;display:block;width:19px;height:19px;margin:0 auto;border:0;&quot;&gt;
+          &lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;23&quot; valign=&quot;middle&quot; style=&quot;width:402px;height:23px;background:#ffffff;padding:0 20px 0 22px;vertical-align:middle;&quot;&gt;
+            &lt;a href=&quot;{{URL_WEB}}&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; style=&quot;font-size:12px;line-height:23px;color:#07549a;text-decoration:none;&quot;&gt;{{WEB}}&lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td width=&quot;50&quot; height=&quot;14&quot; style=&quot;width:50px;height:14px;background:#07549a;padding:0;font-size:0;line-height:14px;border-radius:0 0 0 9px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width=&quot;402&quot; height=&quot;14&quot; style=&quot;width:402px;height:14px;background:#ffffff;padding:0;font-size:0;line-height:14px;&quot;&gt;&amp;nbsp;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=&quot;168&quot; valign=&quot;middle&quot; style=&quot;width:168px;background:#eaf2f8;border-left:1px solid #c7d8e8;padding:0;text-align:center;vertical-align:middle;border-radius:0 9px 9px 0;&quot;&gt;
+      &lt;img src=&quot;data:image/gif;base64,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&quot; width=&quot;145&quot; alt=&quot;{{CENTRO}}&quot; style=&quot;display:block;width:145px;height:auto;margin:0 auto;border:0;&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+
+  <!-- Contenedor de notificaciones flotantes (Toast) -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Pie de página -->
+  <footer class="app-footer">
+    <p>
+      Generador de Firmas Oficiales &bull; Plantilla base: <code>plantilla_firma.html</code> &bull; Diseñado para IES El Rincón
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+/**
+ * Generador de Firmas de Correo Institucional
+ * Lógica de cliente: Previsualización en tiempo real, reemplazo de etiquetas {{ }},
+ * soporte para LinkedIn opcional, copiado enriquecido fiable para Gmail/Outlook
+ * y generación de código HTML.
+ */
+
+(function () {
+  'use strict';
+
+  // Referencias al DOM
+  const form = document.getElementById('signatureForm');
+  const previewIframe = document.getElementById('previewIframe');
+  const previewContainer = document.getElementById('previewContainer');
+  const generatedHtmlTextarea = document.getElementById('generatedHtml');
+  const codeCharCounter = document.getElementById('codeCharCounter');
+  const toastContainer = document.getElementById('toastContainer');
+  const rawTemplateElement = document.getElementById('rawTemplateSource');
+
+  const linkedinCheckbox = document.getElementById('field_include_linkedin');
+  const linkedinContainer = document.getElementById('linkedinUrlContainer');
+
+  if (!rawTemplateElement) {
+    console.error('No se encontró el elemento con la plantilla base (#rawTemplateSource).');
+    return;
+  }
+
+  // Plantilla base leída desde el servidor
+  const RAW_TEMPLATE = rawTemplateElement.value || rawTemplateElement.textContent;
+
+  // Datos de ejemplo predefinidos
+  const SAMPLE_DATA = {
+    NOMBRE_APELLIDOS: 'Juan Pérez',
+    CARGO_DEPARTAMENTO: 'Departamento de...',
+    CENTRO: 'IES El Rincón',
+    EMAIL: 'juanperez@ieselrincon.es',
+    PREFIJO: '34',
+    TELEFONO: '928 30 43 67',
+    WEB: 'www.ieselrincon.es',
+    URL_WEB: 'https://www.ieselrincon.es',
+    INCLUDE_LINKEDIN: true,
+    URL_LINKEDIN: 'https://es.linkedin.com/company/ieselrincon'
+  };
+
+  /**
+   * Escapar texto para HTML seguro
+   */
+  function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.toString().replace(/[&<>"']/g, m => map[m]);
+  }
+
+  /**
+   * Normalizar URLs para asegurar protocolo https:// o http://
+   */
+  function normalizeUrl(url) {
+    if (!url) return '';
+    url = url.trim();
+    if (!/^https?:\/\//i.test(url)) {
+      return 'https://' + url;
+    }
+    return url;
+  }
+
+  /**
+   * Obtiene los valores actuales del formulario
+   */
+  function getFormData() {
+    const data = {};
+    const inputs = form.querySelectorAll('input[data-placeholder]');
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-placeholder');
+      data[key] = input.value.trim();
+    });
+
+    data.INCLUDE_LINKEDIN = linkedinCheckbox ? linkedinCheckbox.checked : false;
+    return data;
+  }
+
+  /**
+   * Genera el HTML reemplazando todos los campos {{ }} y aplicando opciones
+   */
+  function renderSignatureHtml(data) {
+    let result = RAW_TEMPLATE;
+
+    const nombre = escapeHtml(data.NOMBRE_APELLIDOS || '');
+    const cargo = escapeHtml(data.CARGO_DEPARTAMENTO || '');
+    const centro = escapeHtml(data.CENTRO || '');
+    const email = escapeHtml(data.EMAIL || '');
+    const webText = escapeHtml(data.WEB || '');
+
+    // 1. Manejo de URL Web
+    let urlWeb = data.URL_WEB ? normalizeUrl(data.URL_WEB) : '';
+    if (!urlWeb && data.WEB) {
+      urlWeb = normalizeUrl(data.WEB);
+    }
+    const safeUrlWeb = escapeHtml(urlWeb);
+
+    if (result.includes('href="https://{{WEB}}"')) {
+      result = result.replace('href="https://{{WEB}}"', 'href="' + (safeUrlWeb || '#') + '"');
+    }
+    result = result.replace(/\{\{URL_WEB\}\}/g, safeUrlWeb || '#');
+
+    // 2. Manejo de LinkedIn (Opcional)
+    const includeLinkedIn = Boolean(data.INCLUDE_LINKEDIN);
+    const urlLinkedIn = data.URL_LINKEDIN ? normalizeUrl(data.URL_LINKEDIN) : '';
+
+    if (!includeLinkedIn || !urlLinkedIn) {
+      // Eliminar celda de LinkedIn preservando la indentación limpia
+      result = result.replace(/\n\s*<td\s+width="22"\s+valign="top"\s+align="right"[\s\S]*?<\/td>/i, '');
+      result = result.replace(/\{\{URL_LINKEDIN\}\}/g, '');
+    } else {
+      result = result.replace(/\{\{URL_LINKEDIN\}\}/g, escapeHtml(urlLinkedIn));
+    }
+
+    // 3. Reemplazo de Email
+    if (email) {
+      result = result.replace(/mailto:\{\{EMAIL\}\}/g, 'mailto:' + email);
+      result = result.replace(/\{\{EMAIL\}\}/g, email);
+    } else {
+      result = result.replace(/mailto:\{\{EMAIL\}\}/g, '#');
+      result = result.replace(/\{\{EMAIL\}\}/g, '');
+    }
+
+    // 4. Formateo y Reemplazo de Prefijo y Teléfono
+    const prefijo = (data.PREFIJO || '').trim();
+    const telefono = (data.TELEFONO || '').trim();
+    let prefijoFormateado = '';
+
+    if (prefijo) {
+      let cleanPrefix = prefijo.replace(/^[()]+|[()]+$/g, '').trim();
+      if (cleanPrefix) {
+        if (!cleanPrefix.startsWith('+')) {
+          cleanPrefix = '+' + cleanPrefix;
+        }
+        prefijoFormateado = `(${cleanPrefix})`;
+      }
+    }
+
+    let telefonoDisplay = '';
+    if (telefono) {
+      telefonoDisplay = prefijoFormateado ? `${prefijoFormateado} ${telefono}` : telefono;
+    } else {
+      telefonoDisplay = prefijoFormateado;
+    }
+
+    result = result.replace(/\{\{TELEFONO\}\}/g, escapeHtml(telefonoDisplay));
+    result = result.replace(/\{\{PREFIJO\}\}/g, escapeHtml(prefijoFormateado));
+
+    // 5. Reemplazo de Campos de Texto principales
+    result = result.replace(/\{\{NOMBRE_APELLIDOS\}\}/g, nombre);
+    result = result.replace(/\{\{CARGO_DEPARTAMENTO\}\}/g, cargo);
+    result = result.replace(/\{\{CENTRO\}\}/g, centro);
+    result = result.replace(/\{\{WEB\}\}/g, webText);
+
+    // 6. Reemplazo dinámico de cualquier otra etiqueta {{TAG}}
+    for (const key in data) {
+      if (!['NOMBRE_APELLIDOS', 'CARGO_DEPARTAMENTO', 'CENTRO', 'EMAIL', 'PREFIJO', 'TELEFONO', 'WEB', 'URL_WEB', 'URL_LINKEDIN', 'INCLUDE_LINKEDIN'].includes(key)) {
+        const regex = new RegExp('\\{\\{' + key + '\\}\\}', 'g');
+        result = result.replace(regex, escapeHtml(data[key]));
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Extrae la tabla COMPLETA de la firma (sin truncar tablas anidadas)
+   * @param {string} fullHtml - Documento HTML completo
+   * @param {boolean} compact - Si es true, remueve espacios redundantes entre etiquetas (><)
+   */
+  function extractTableSnippet(fullHtml, compact = false) {
+    let snippet = fullHtml;
+    const startIdx = fullHtml.indexOf('<table');
+    const endIdx = fullHtml.lastIndexOf('</table>');
+    if (startIdx !== -1 && endIdx !== -1) {
+      snippet = fullHtml.substring(startIdx, endIdx + '</table>'.length).trim();
+    } else {
+      const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      if (bodyMatch) {
+        snippet = bodyMatch[1].trim();
+      }
+    }
+    if (compact) {
+      snippet = snippet.replace(/>\s+</g, '><');
+    }
+    return snippet;
+  }
+
+  /**
+   * Devuelve exclusivamente el código HTML de la tabla con alineación e indentación correcta
+   */
+  function getSelectedCodeFormat(fullHtml) {
+    return extractTableSnippet(fullHtml, false);
+  }
+
+  /**
+   * Actualiza la previsualización y el área de código
+   */
+  function updatePreview() {
+    const data = getFormData();
+    const fullHtml = renderSignatureHtml(data);
+
+    // Actualizar Iframe
+    previewIframe.srcdoc = fullHtml;
+
+    // Actualizar código generado
+    const codeToShow = getSelectedCodeFormat(fullHtml);
+    generatedHtmlTextarea.value = codeToShow;
+
+    // Actualizar contador del textarea
+    const bytes = new Blob([codeToShow]).size;
+    const chars = codeToShow.length;
+    codeCharCounter.textContent = `${chars.toLocaleString()} caracteres (${(bytes / 1024).toFixed(1)} KB)`;
+
+    // Monitorización en tiempo real del límite de Gmail (10.000 caracteres)
+    const compactTable = extractTableSnippet(fullHtml, true);
+    const gmailChars = compactTable.length;
+    const gmailBadge = document.getElementById('gmailBadge');
+    const gmailBadgeText = document.getElementById('gmailBadgeText');
+
+    if (gmailBadge && gmailBadgeText) {
+      gmailBadge.classList.remove('badge-success', 'badge-warning', 'badge-danger');
+      if (gmailChars <= 9500) {
+        gmailBadge.classList.add('badge-success');
+        gmailBadgeText.textContent = `Compatible con Gmail (${gmailChars.toLocaleString()} / 10.000 car.)`;
+      } else if (gmailChars <= 10000) {
+        gmailBadge.classList.add('badge-warning');
+        gmailBadgeText.textContent = `Cerca del límite (${gmailChars.toLocaleString()} / 10.000 car.)`;
+      } else {
+        gmailBadge.classList.add('badge-danger');
+        gmailBadgeText.textContent = `Supera límite Gmail (${gmailChars.toLocaleString()} / 10.000 car.)`;
+      }
+    }
+  }
+
+  /**
+   * Mostrar Toast flotante
+   */
+  function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    let iconSvg = '';
+    if (type === 'success') {
+      iconSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    } else if (type === 'info') {
+      iconSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+    } else {
+      iconSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+    }
+
+    toast.innerHTML = `${iconSvg}<span>${message}</span>`;
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  /**
+   * Copiar código HTML al portapapeles
+   */
+  async function copyHtmlCode() {
+    const code = generatedHtmlTextarea.value;
+    if (!code) return;
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        generatedHtmlTextarea.select();
+        document.execCommand('copy');
+      }
+      showToast('¡Código HTML copiado al portapapeles con éxito!');
+    } catch (err) {
+      generatedHtmlTextarea.select();
+      document.execCommand('copy');
+      showToast('¡Código copiado al portapapeles!');
+    }
+  }
+
+  /**
+   * Seleccionar la tabla de la firma dentro del iframe para copiado manual (Ctrl + C)
+   */
+  function selectSignatureInIframe() {
+    try {
+      const doc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+      const targetTable = doc.querySelector('table[width="620"]') || doc.body;
+      const win = previewIframe.contentWindow;
+
+      win.focus();
+      const sel = win.getSelection();
+      sel.removeAllRanges();
+
+      const range = doc.createRange();
+      range.selectNode(targetTable);
+      sel.addRange(range);
+
+      showToast('Firma seleccionada. Pulsa Ctrl + C en tu teclado para copiarla.', 'info');
+    } catch (e) {
+      console.warn('Error al seleccionar firma en iframe:', e);
+    }
+  }
+
+  /**
+   * Copiar firma en formato enriquecido (Visual / Rich Text)
+   * Diseñado específicamente para que Gmail y Outlook reciban la tabla completa con iconos, textos y URLs.
+   */
+  async function copyVisualSignature() {
+    try {
+      const data = getFormData();
+      const fullHtml = renderSignatureHtml(data);
+      // Compactar whitespace entre etiquetas para garantizar que se mantenga bajo el límite de Gmail (< 10.000 car.)
+      const tableHtml = extractTableSnippet(fullHtml, true);
+
+      let copiedSuccess = false;
+
+      // Método 1 (Prioritario): ClipboardItem con fragmento HTML exacto y compacto
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
+          const wrappedHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;"><!--StartFragment-->${tableHtml}<!--EndFragment--></body></html>`;
+          const htmlBlob = new Blob([wrappedHtml], { type: 'text/html' });
+
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = tableHtml;
+          const plainText = tempDiv.innerText || tempDiv.textContent;
+          const textBlob = new Blob([plainText], { type: 'text/plain' });
+
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': htmlBlob,
+              'text/plain': textBlob
+            })
+          ]);
+          copiedSuccess = true;
+        } catch (clipErr) {
+          console.warn('ClipboardItem fallo, probando execCommand:', clipErr);
+        }
+      }
+
+      // Método 2 (Respaldo): Selección DOM nativa dentro del Iframe + execCommand
+      if (!copiedSuccess) {
+        try {
+          const doc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+          const targetTable = doc.querySelector('table[width="620"]') || doc.body;
+          const win = previewIframe.contentWindow;
+
+          win.focus();
+          const sel = win.getSelection();
+          sel.removeAllRanges();
+
+          const range = doc.createRange();
+          range.selectNode(targetTable);
+          sel.addRange(range);
+
+          copiedSuccess = doc.execCommand('copy');
+        } catch (err) {
+          console.warn('Fallo execCommand en iframe:', err);
+        }
+      }
+
+      if (copiedSuccess) {
+        showToast('¡Firma visual copiada! Ve a Gmail y pega con Ctrl + V.', 'success');
+        previewContainer.style.transition = 'box-shadow 0.3s ease';
+        previewContainer.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.5)';
+        setTimeout(() => {
+          previewContainer.style.boxShadow = '';
+        }, 1200);
+      }
+    } catch (e) {
+      console.warn('Error al copiar enriquecido:', e);
+      selectSignatureInIframe();
+    }
+  }
+
+  /**
+   * Abre la firma generada en una nueva pestaña limpia para inspeccionar o copiar manualmente
+   */
+  function openSignatureInNewTab() {
+    const data = getFormData();
+    const fullHtml = renderSignatureHtml(data);
+    const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    showToast('Firma abierta en pestaña nueva.', 'info');
+  }
+
+  /**
+   * Descargar archivo HTML de la firma
+   */
+  function downloadSignatureFile() {
+    const data = getFormData();
+    const fullHtml = renderSignatureHtml(data);
+    const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'firma_correo.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Descargando archivo firma_correo.html...', 'info');
+  }
+
+  /**
+   * Cargar datos de ejemplo en los campos
+   */
+  function loadSampleData() {
+    for (const key in SAMPLE_DATA) {
+      if (key === 'INCLUDE_LINKEDIN') {
+        if (linkedinCheckbox) {
+          linkedinCheckbox.checked = SAMPLE_DATA[key];
+        }
+        if (linkedinContainer) {
+          linkedinContainer.style.display = SAMPLE_DATA[key] ? 'block' : 'none';
+        }
+      } else {
+        const input = form.querySelector(`input[data-placeholder="${key}"]`);
+        if (input) {
+          input.value = SAMPLE_DATA[key];
+        }
+      }
+    }
+    updatePreview();
+    showToast('Datos de ejemplo cargados correctamente.', 'info');
+  }
+
+  /**
+   * Limpiar todos los campos del formulario
+   */
+  function clearForm() {
+    const inputs = form.querySelectorAll('input[data-placeholder]');
+    inputs.forEach(input => input.value = '');
+    if (linkedinCheckbox) {
+      linkedinCheckbox.checked = false;
+    }
+    if (linkedinContainer) {
+      linkedinContainer.style.display = 'none';
+    }
+    updatePreview();
+    showToast('Formulario restablecido.', 'info');
+  }
+
+  /**
+   * Cambiar fondo de la previsualización
+   */
+  function setPreviewBackground(bgClass) {
+    previewContainer.classList.remove('bg-white', 'bg-light', 'bg-dark');
+    previewContainer.classList.add(bgClass);
+  }
+
+  // Escuchadores de eventos para campos del formulario
+  form.addEventListener('input', updatePreview);
+  form.addEventListener('change', updatePreview);
+
+  // Toggle de LinkedIn
+  if (linkedinCheckbox) {
+    linkedinCheckbox.addEventListener('change', function () {
+      if (linkedinContainer) {
+        linkedinContainer.style.display = this.checked ? 'block' : 'none';
+      }
+      updatePreview();
+    });
+  }
+
+  // Botón Generar (Submit / Click)
+  document.getElementById('btnGenerateCode')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    updatePreview();
+    const codeCard = document.getElementById('codeCard');
+    if (codeCard) {
+      codeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      codeCard.style.transition = 'box-shadow 0.3s ease';
+      codeCard.style.boxShadow = '0 0 0 3px rgba(7, 84, 154, 0.4)';
+      setTimeout(() => {
+        codeCard.style.boxShadow = '';
+      }, 1500);
+    }
+    showToast('¡Código HTML de la firma generado con éxito!', 'success');
+  });
+
+  // Botones de copiado y acciones
+  document.getElementById('btnCopyCode')?.addEventListener('click', copyHtmlCode);
+  document.getElementById('btnCopyVisual')?.addEventListener('click', copyVisualSignature);
+  document.getElementById('btnOpenNewTab')?.addEventListener('click', openSignatureInNewTab);
+  document.getElementById('btnLoadSample')?.addEventListener('click', loadSampleData);
+  document.getElementById('btnClearForm')?.addEventListener('click', clearForm);
+
+  // Selector de fondo de previsualización
+  document.querySelectorAll('[data-preview-bg]').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const bg = this.getAttribute('data-preview-bg');
+      setPreviewBackground(bg);
+      document.querySelectorAll('[data-preview-bg]').forEach(b => b.classList.remove('btn-primary'));
+      this.classList.add('btn-primary');
+    });
+  });
+
+  // Ajuste automático de altura del iframe al cargar y asegurar que los enlaces abran en nueva pestaña
+  previewIframe.addEventListener('load', function () {
+    try {
+      const doc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+      if (doc) {
+        if (doc.body) {
+          const height = Math.max(doc.body.scrollHeight, 185);
+          previewIframe.style.height = (height + 15) + 'px';
+        }
+        // Garantizar que todos los enlaces web y de redes en la previsualización se abran en una nueva pestaña
+        const links = doc.querySelectorAll('a');
+        links.forEach(a => {
+          const href = a.getAttribute('href') || '';
+          if (href && !href.startsWith('mailto:') && href !== '#') {
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+          }
+        });
+      }
+    } catch (e) {
+      // Ignorar errores de cross-origin si aplicase
+    }
+  });
+
+  // Inicializar preview al cargar la página
+  updatePreview();
+
+})();
+
+  </script>
+</body>
+</html>
